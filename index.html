@@ -48,9 +48,23 @@
 			</div>
 		</form>
 
+		<hr>
+
+		<button class="btn btn-sm btn-primary upload-all">Upload All</button>
+		<button class="btn btn-sm btn-danger cancel-all">Cancel All</button>
+
 	</div><!-- end .container -->
 
 	<script>
+		$('.upload-all').click(function(){
+			//submit all form
+			$('form').submit();
+		});
+
+		$('.cancel-all').click(function(){
+			//submit all form
+			$('form .cancel').click();
+		});
 
 		$(document).on('submit','form',function(e){
 			e.preventDefault();
