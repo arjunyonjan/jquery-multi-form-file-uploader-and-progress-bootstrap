@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
+	<title>Upload</title>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 
@@ -15,77 +15,89 @@
 <body>
 
 	<div class="container">
-		<h1>File Uploader</h1>
 
-		<form action="#" method="post" enctype="multipart/form-data">
-			<input type="file" name="image">
-			<button class="btn btn-sm btn-info upload">Upload</button>
-			<button class="btn btn-sm btn-info cancel" type="button">Cancel</button>
-
-			<div class="progress progress-striped active">
-				<div class="progress-bar" style="width:0%"></div>
-			</div>
-		</form>
-
+		<h1>Uploader</h1>
 		<hr>
+		<form action="#">
+			<input type="file" name="image" >
+			<button class="btn btn-sm btn-info upload" type="submit">Upload</button>
+			<button type="button" class="btn btn-sm btn-danger cancel">Cancel</button>
 
-		<form action="#" method="post" enctype="multipart/form-data">
-			<input type="file" name="image">
-			<button class="btn btn-sm btn-info upload">Upload</button>
-			<button class="btn btn-sm btn-info cancel" type="button">Cancel</button>
+			<div class="progress progress-striped active">
+				<div class="progress-bar" style="width:0%"></div>
+			</div>
+		</form>
+
+		<form action="#">
+			<input type="file" name="image" >
+			<button class="btn btn-sm btn-info upload" type="submit">Upload</button>
+			<button type="button" class="btn btn-sm btn-danger cancel">Cancel</button>
 
 			<div class="progress progress-striped active">
 				<div class="progress-bar" style="width:0%"></div>
 			</div>
 		</form>
 
-		<hr>
-
-		<form action="#" method="post" enctype="multipart/form-data">
-			<input type="file" name="image">
-			<button class="btn btn-sm btn-info upload">Upload</button>
-			<button class="btn btn-sm btn-info cancel" type="button">Cancel</button>
+		<form action="#">
+			<input type="file" name="image" >
+			<button class="btn btn-sm btn-info upload" type="submit">Upload</button>
+			<button type="button" class="btn btn-sm btn-danger cancel">Cancel</button>
 
 			<div class="progress progress-striped active">
 				<div class="progress-bar" style="width:0%"></div>
 			</div>
 		</form>
+
 	</div><!-- end .container -->
-
 
 	<script>
 
 		$(document).on('submit','form',function(e){
 			e.preventDefault();
-			processFile($(this));
+
+			$form = $(this);
+
+			uploadImage($form);
+
 		});
 
-		function processFile(form){
+		function uploadImage($form){
+			$form.find('.progress-bar').removeClass('progress-bar-success')
+										.removeClass('progress-bar-danger');
+
+			var formdata = new FormData($form[0]); //formelement
 			var request = new XMLHttpRequest();
-			var percent;
-			var currentform;
 
-			//progress
+			//progress event...
 			request.upload.addEventListener('progress',function(e){
-				 percent = Math.round(e.loaded/e.total*100);
-				form.find('.progress-bar').width(percent+'%').html(percent+'%');
+				var percent = Math.round(e.loaded/e.total * 100);
+				$form.find('.progress-bar').width(percent+'%').html(percent+'%');
 			});
 
-			//event full load
+			//progress completed load event
 			request.addEventListener('load',function(e){
-				form.find('.progress-bar').html('upload complete...').addClass('progress-bar-success');
+				$form.find('.progress-bar').addClass('progress-bar-success').html('upload completed....');
 			});
-
-			var formdata = new FormData(form[0]); //formelement
 
 			request.open('post', 'server.php');
 			request.send(formdata);
 
-			form.on('click','.cancel',function(){
+			$form.on('click','.cancel',function(){
 				request.abort();
-				form.find('.progress-bar').html('aborted...');
+
+				$form.find('.progress-bar')
+					.addClass('progress-bar-danger')
+					.removeClass('progress-bar-success')
+					.html('upload aborted...');
 			});
+
 		}
+
+		//thanks for watching........
+		//code on git........
+
+		//subscribe, share, like, comment.............
+
 	</script>
 </body>
 </html>
